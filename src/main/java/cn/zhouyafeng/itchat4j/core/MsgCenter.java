@@ -44,6 +44,7 @@ public class MsgCenter {
 			JSONObject m = msgList.getJSONObject(i);
 			m.put("groupMsg", false);// 是否是群消息
 			if (m.getString("FromUserName").contains("@@") || m.getString("ToUserName").contains("@@")) { // 群聊消息
+				m.put("groupMsg", true);
 				if (m.getString("FromUserName").contains("@@")
 						&& !core.getGroupIdList().contains(m.getString("FromUserName"))) {
 					core.getGroupIdList().add((m.getString("FromUserName")));
@@ -55,7 +56,6 @@ public class MsgCenter {
 				if (m.getString("Content").contains("<br/>")) {
 					String content = m.getString("Content").substring(m.getString("Content").indexOf("<br/>") + 5);
 					m.put("Content", content);
-					m.put("groupMsg", true);
 				}
 			} else {
 				CommonTools.msgFormatter(m, "Content");
